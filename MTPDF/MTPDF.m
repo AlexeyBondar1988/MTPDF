@@ -66,14 +66,14 @@
             _creator        = [self getKey:"Creator"        from:dict];
             _subject        = [self getKey:"Subject"        from:dict];
 
-            NSString *creationDateString = [self getKey:"CreationDate" from:dict];
-            if (creationDateString)
-                _creationDate = [self dateFromPDFDateString:creationDateString];
-
-
-            NSString *modifiedDateString = [self getKey:"ModDate" from:dict];
-            if (modifiedDateString)
-                _modifiedDate = [self dateFromPDFDateString:modifiedDateString];
+//            NSString *creationDateString = [self getKey:"CreationDate" from:dict];
+//            if (creationDateString)
+//                _creationDate = [self dateFromPDFDateString:creationDateString];
+//
+//
+//            NSString *modifiedDateString = [self getKey:"ModDate" from:dict];
+//            if (modifiedDateString)
+//                _modifiedDate = [self dateFromPDFDateString:modifiedDateString];
         }
     }
     return self;
@@ -103,7 +103,7 @@
     return PDF;
 }
 - (void)dealloc{
-    CFRelease(_reference);
+    CGPDFDocumentRelease(_reference);
 }
 
 
@@ -149,6 +149,10 @@
 // D: 2011 11 03 11 31 32 +11 '00'
 - (NSDate *)dateFromPDFDateString:(NSString *)string
 {
+    if (string.length == 0) {
+        return nil;
+    }
+    
     NSRange yearRange   = NSMakeRange(2, 4);
     NSRange monthRange  = NSMakeRange(yearRange.location    + yearRange.length,     2);
     NSRange dayRange    = NSMakeRange(monthRange.location   + monthRange.length,    2);
